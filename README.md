@@ -5,3 +5,7 @@
 ````
 The foreign module implementation for module Ex2 is missing.
 ````
+* ContTの理解    
+````
+ContT r m a
+````
