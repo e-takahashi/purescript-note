@@ -9,11 +9,11 @@ The foreign module implementation for module Ex2 is missing.
 ## readJSON
 
 [PureScript by Example](https://leanpub.com/purescript/read)の10.16 Working With Untyped Dataで登場している __readJSON__ がライブラリに見当たらないので作ってみた。
-ちなみに[Exercisesのソース]にもなかった。
+ちなみに[Exercisesのソース](https://github.com/paf31/purescript-book)にもなかった。
 
 [Wrapping JavaScript for PureScript](http://blog.ndk.io/purescript-ffi.html)の中ほどにあるコードを参考にした。
 
-先ずは__readJSON__の仕様は次の通り。
+**readJSON**の仕様は次の通り。
 
 ````
 readJSON :: forall a. String -> F a
@@ -37,10 +37,10 @@ exports.readJSONImpl = function (json, onSuccess, onFailure) {
 
 成功時と失敗時それぞれのコールバック onSuccess、onFailure を引数に取る。
 成功時、失敗時ともに コールバックの実行結果を return していることに注意。
-Effを使わないため、function()にする必要はない。
+呼出側でEffを使わないため、function()にする必要はない。
 また、コールバックを呼ぶだけでは駄目で、結果を return で返さなければならない。
 
-次にPureScriptコードを実行する。
+次にPureScriptコードを実装する。
 
 必然的にPureScriptのモジュール名はMyJSONでファイル名はMyJSON.pursとなる。
 
@@ -96,7 +96,7 @@ JavaScriptの実装で複数の引数を受取るようにしたので、Data.Fu
 これより成功時と失敗時それぞれのコールバック関数の結果も同じく`Either Error' a`となる。
 後は、JavaScript実装に従って、成功時はパース結果を受ける関数なので、`a -> Either Error' a`、
 失敗時はエラー文字列を受ける関数なので、`Error' -> Either Error' a`となる。
-なお、`Error`の実装はこの時点で決定している。
+なお、`Error`の実装を決定したのはこの時点である。
 
 この後は、このreadJSONImplを呼び出して、結果に応じFの振舞いをする関数を書けばいい。
 
