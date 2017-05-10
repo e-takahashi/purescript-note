@@ -1,10 +1,17 @@
 # purescript-note
 
+## メモ
+
 * foreign moduleは、参照するpurescriptファイルと同名でないと駄目なようだ。    
 例えば、Ex2.pursに対してEx2.jsがないと以下のエラーが出る。
 ````
 The foreign module implementation for module Ex2 is missing.
 ````
+
+* type synonymはinstanceにできない。   
+コンパイルエラーになる。    
+ **newtype**にしておけばいい。[例](http://stackoverflow.com/questions/43344447/type-class-instances-for-type-synonyms-are-disallowed)   
+issueにも上がっていたようだ。[#177](https://github.com/purescript/purescript/issues/177)
 
 ## readJSON
 
