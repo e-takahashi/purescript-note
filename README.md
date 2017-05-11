@@ -13,6 +13,29 @@ The foreign module implementation for module Ex2 is missing.
  **newtype**にしておけばいい。[例](http://stackoverflow.com/questions/43344447/type-class-instances-for-type-synonyms-are-disallowed)   
 issueにも上がっていたようだ。[#177](https://github.com/purescript/purescript/issues/177)
 
+* Polymorphic Codeのテストではどうやら型を特定する箇所は全体を推論できるのであれば自由なようだ    
+例えば以下のテストコード（mainやヘルパー関数など他のコードは省略）
+````
+  quickCheck $ \xs ys ->
+    let
+      result = ints $ union xs ys
+    in
+     isUnion xs ys result <?> show result <> " is not the union of " <> show xs <> " and " <> show ys <> "."
+````
+テスト対象のunionはPolymorphicなので、helper関数intsでArray Intに型を特定している。
+これでxs,ysにはArray Intがセットされることになる。   
+で、これは以下のコードでもいい。
+````
+  quickCheck $ \xs ys ->
+    let
+      result = union xs ys
+    in
+     isUnion xs (ints ys) result <?> show result <> " is not the union of " <> show xs <> " and " <> show ys <> "."
+````
+ysにintsを適用してysの型をArray Intに特定している。  
+これでもうまくいくのはおそらくunionの定義がresult,xs,ysが同じ型のArrayであることを要請しており、その結果、ysの型が特定されたことで他のresult,xsの型も特定したと考えられる。
+よって、先のコードのようにresultの型を特定しても、上のコードのようにysの型を特定しても、あるいはxsの型を特定してもうまくいく。
+
 ## readJSON
 
 [PureScript by Example](https://leanpub.com/purescript/read)の10.16 Working With Untyped Dataで登場している __readJSON__ がライブラリに見当たらないので作ってみた。
